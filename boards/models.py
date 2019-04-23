@@ -4,6 +4,10 @@ from django.conf import settings
 # Create your models here.
 class Board(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    """ 
+    Board.objects.create(title='title', content='content') # nullable일 때 / OK
+    Board.objects.create(title='title', content='content', user=User()) # blank 일때 / OK
+    """
     title = models.CharField(max_length=10)
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -11,7 +15,7 @@ class Board(models.Model):
     
     def __str__(self):
         return f'Board{self.pk}'
-
+        # return self.title     
 class Comment(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     board = models.ForeignKey(Board, on_delete=models.CASCADE)
@@ -19,3 +23,4 @@ class Comment(models.Model):
     
     def __str__(self):
         return self.content
+
